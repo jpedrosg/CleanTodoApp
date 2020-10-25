@@ -12,78 +12,191 @@
 
 import UIKit
 
-protocol CategoryListDisplayLogic: class
-{
-  func displayCategories(viewModel: CategoryList.FetchCategories.ViewModel)
+
+// MARK: - CategoryListDisplayLogic
+
+protocol CategoryListDisplayLogic: class {
+    
+    // MARK: Display Categories
+    func displayCategoriesSuccess(_ viewModel: CategoryList.FetchCategories.ViewModel)
+    func displayCategoriesError(_ viewModel: CategoryList.FetchCategories.ViewModel)
+    
+    // MARK: Display Update Categories
+    func displayAddCategoriesSuccess(_ viewModel: CategoryList.UpdateCategories.ViewModel)
+    func displayRemoveCategoriesSuccess(_ viewModel: CategoryList.UpdateCategories.ViewModel)
+    func displayUpdateCategoriesError(_ viewModel: CategoryList.UpdateCategories.ViewModel)
 }
 
-class CategoryListViewController: UIViewController, CategoryListDisplayLogic
-{
-  var interactor: CategoryListBusinessLogic?
-  var router: (NSObjectProtocol & CategoryListRoutingLogic & CategoryListDataPassing)?
 
-  // MARK: Object lifecycle
-  
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
-  {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    setup()
-  }
-  
-  required init?(coder aDecoder: NSCoder)
-  {
-    super.init(coder: aDecoder)
-    setup()
-  }
-  
-  // MARK: Setup
-  
-  private func setup()
-  {
-    let viewController = self
-    let interactor = CategoryListInteractor()
-    let presenter = CategoryListPresenter()
-    let router = CategoryListRouter()
-    viewController.interactor = interactor
-    viewController.router = router
-    interactor.presenter = presenter
-    presenter.viewController = viewController
-    router.viewController = viewController
-    router.dataStore = interactor
-  }
-  
-  // MARK: Routing
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-  {
-    if let scene = segue.identifier {
-      let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-      if let router = router, router.responds(to: selector) {
-        router.perform(selector, with: segue)
-      }
+// MARK: - CategoryListViewController
+
+class CategoryListViewController: UITableViewController {
+    
+    
+    // MARK: Object properties
+    let cellReuseIdentifier = "Cell"
+    var categories: Array<Category>?
+    var interactor: CategoryListBusinessLogic?
+    var router: (NSObjectProtocol & CategoryListRoutingLogic & CategoryListDataPassing)?
+    final let NULL_CATEGORIES_COUNT = 0
+    
+    // MARK: IBOutlets
+
+    
+    
+    // MARK: Object lifecycle
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        setup()
     }
-  }
-  
-  // MARK: View lifecycle
-  
-  override func viewDidLoad()
-  {
-    super.viewDidLoad()
-    getCategories()
-  }
-  
-  // MARK: Do something
-  
-  //@IBOutlet weak var nameTextField: UITextField!
-  
-  func getCategories()
-  {
-    let request = CategoryList.FetchCategories.Request()
-    interactor?.fetchCategories(request: request)
-  }
-  
-  func displayCategories(viewModel: CategoryList.FetchCategories.ViewModel)
-  {
-    //nameTextField.text = viewModel.name
-  }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    
+    // MARK: Setup
+    
+    private func setup() {
+        let viewController = self
+        let interactor = CategoryListInteractor()
+        let presenter = CategoryListPresenter()
+        let router = CategoryListRouter()
+        viewController.interactor = interactor
+        viewController.router = router
+        interactor.presenter = presenter
+        presenter.viewController = viewController
+        router.viewController = viewController
+        router.dataStore = interactor
+    }
+    
+    
+    // MARK: Routing
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let scene = segue.identifier {
+            let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
+            if let router = router, router.responds(to: selector) {
+                router.perform(selector, with: segue)
+            }
+        }
+    }
+    
+    
+    // MARK: View lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        getCategories()
+    }
+    
+    
+    // MARK: IBActions
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        var textField = UITextField()
+        let alert = UIAlertController(title: "Add a New Cateogry", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Add", style: .default) { (action) in
+            // New Category:
+            let newCategory = Category()
+            newCategory.name = textField.text!
+            let request = CategoryList.UpdateCategories.Request(method: CategoryList.UpdateCategories.Request.Method.add, category: newCategory)
+            self.updateCategories(request)
+        }
+        alert.addAction(action)
+        alert.addTextField { (field) in
+            textField = field
+            textField.placeholder = "Add a new category"
+        }
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
+    // MARK: Requests
+    
+    fileprivate func getCategories() {
+        interactor?.fetchCategories()
+    }
+    
+    fileprivate func updateCategories(_ request: CategoryList.UpdateCategories.Request) {
+        self.interactor?.updateCategories(with: request)
+    }
+    
+    
+    // MARK: - UITableViewController
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let contextItem = UIContextualAction(style: .destructive, title: "Delete") {  (contextualAction, view, boolValue) in
+            self.updateModel(at: indexPath)
+        }
+        let swipeActions = UISwipeActionsConfiguration(actions: [contextItem])
+        return swipeActions
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return categories?.count ?? 1
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath)
+        cell.selectionStyle = .none
+        cell.textLabel?.text = categories?[indexPath.row].name ?? "teste"
+        return cell
+    }
+
+    
+    func updateModel(at indexPath: IndexPath) {
+        if let categoryForDeletion = self.categories?[indexPath.row] {
+            let request = CategoryList.UpdateCategories.Request(method: CategoryList.UpdateCategories.Request.Method.remove, category: categoryForDeletion)
+            self.interactor?.updateCategories(with: request)
+        }
+    }
+}
+
+
+// MARK: - CategoryListDisplayLogic
+
+extension CategoryListViewController: CategoryListDisplayLogic{
+    
+    // MARK: Display Categories
+    
+    func displayCategoriesSuccess(_ viewModel: CategoryList.FetchCategories.ViewModel) {
+        self.categories = viewModel.categories
+        tableView.reloadData()
+    }
+    
+    func displayCategoriesError(_ viewModel: CategoryList.FetchCategories.ViewModel) {
+        if let error = viewModel.errorString {
+            print(error)
+        }
+    }
+    
+    
+    // MARK: Display Update Categories
+    
+    func displayUpdateCategoriesSuccess() {
+        tableView.reloadData()
+    }
+    func displayAddCategoriesSuccess(_ viewModel: CategoryList.UpdateCategories.ViewModel) {
+        if let category = viewModel.addedCategory {
+            categories?.append(category)
+            displayUpdateCategoriesSuccess()
+        }
+    }
+    
+    func displayRemoveCategoriesSuccess(_ viewModel: CategoryList.UpdateCategories.ViewModel) {
+        if let category = viewModel.removedCategory {
+            if let correctIndex = categories?.firstIndex(of: category) {
+                self.categories?.remove(at: correctIndex)
+            }
+            displayUpdateCategoriesSuccess()
+        }
+    }
+    
+    func displayUpdateCategoriesError(_ viewModel: CategoryList.UpdateCategories.ViewModel) {
+        if let error = viewModel.stringError {
+            print(error)
+        }
+    }
 }

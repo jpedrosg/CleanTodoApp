@@ -12,30 +12,54 @@
 
 import UIKit
 
-protocol CategoryListBusinessLogic
-{
-  func fetchCategories(request: CategoryList.FetchCategories.Request)
+protocol CategoryListBusinessLogic {
+    func fetchCategories()
+    func updateCategories(with request: CategoryList.UpdateCategories.Request)
 }
 
-protocol CategoryListDataStore
-{
-  //var name: String { get set }
+protocol CategoryListDataStore {
+    //var name: String { get set }
 }
 
-class CategoryListInteractor: CategoryListBusinessLogic, CategoryListDataStore
-{
-  var presenter: CategoryListPresentationLogic?
-  var worker: CategoryListWorker?
-  //var name: String = ""
-  
-  // MARK: Do something
-  
-  func fetchCategories(request: CategoryList.FetchCategories.Request)
-  {
-    worker = CategoryListWorker()
-    worker?.fetchCategories()
+class CategoryListInteractor: CategoryListBusinessLogic, CategoryListDataStore {
+
+    // MARK: Properties
     
-    let response = CategoryList.FetchCategories.Response()
-    presenter?.presentCategories(response: response)
-  }
+    var presenter: CategoryListPresentationLogic?
+    var worker: CategoryListWorker?
+    
+    
+    // MARK: Fetch Categories
+    
+    func fetchCategories() {
+        worker = CategoryListWorker()
+        worker?.fetchCategories()
+            .done(handleFetchCategories)
+        
+        let response = CategoryList.FetchCategories.Response()
+        presenter?.presentCategories(response)
+    }
+    
+    private func handleFetchCategories(response: CategoryList.FetchCategories.Response){
+        presenter?.presentCategories(response)
+    }
+    
+    
+    // MARK: Update Categories
+    
+    func updateCategories(with request: CategoryList.UpdateCategories.Request) {
+        worker = CategoryListWorker()
+        worker?.updateCategories(with: request)
+            .done(handleUpdateCategoriesSuccess)
+            .catch(handleUpdateCategoriesError)
+    }
+    
+    private func handleUpdateCategoriesSuccess(response: CategoryList.UpdateCategories.Response){
+        presenter?.presentUpdateCategories(response)
+    }
+    
+    private func handleUpdateCategoriesError(error: Error){
+        let response = CategoryList.UpdateCategories.Response(error: error)
+        presenter?.presentUpdateCategories(response)
+    }
 }

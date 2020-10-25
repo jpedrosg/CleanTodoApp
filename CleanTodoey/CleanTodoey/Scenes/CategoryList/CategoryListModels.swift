@@ -15,18 +15,39 @@ import RealmSwift
 
 enum CategoryList
 {
-  // MARK: Use cases
-  
-  enum FetchCategories
-  {
-    struct Request
-    {
+    // MARK: Fetch Categories
+    
+    enum FetchCategories {
+        struct Response {
+            var categories: Results<Category>?
+        }
+        struct ViewModel {
+            var categories: Array<Category>?
+            var errorString: String?
+        }
     }
-    struct Response
-    {
+    
+    
+    // MARK: Update Categories
+    
+    enum UpdateCategories {
+        struct Request {
+            enum Method {
+                case add
+                case remove
+            }
+            var method: Method
+            var category: Category
+        }
+        struct Response {
+            var addedCategory: Category?
+            var removedCategory: Category?
+            var error: Error?
+        }
+        struct ViewModel {
+            var addedCategory: Category?
+            var removedCategory: Category?
+            var stringError: String?
+        }
     }
-    struct ViewModel
-    {
-    }
-  }
 }

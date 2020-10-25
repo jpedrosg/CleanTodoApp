@@ -12,20 +12,45 @@
 
 import UIKit
 
-protocol CategoryListPresentationLogic
-{
-  func presentCategories(response: CategoryList.FetchCategories.Response)
+protocol CategoryListPresentationLogic {
+    
+    // MARK: Present Categories
+    func presentCategories(_ response: CategoryList.FetchCategories.Response)
+    
+    // MARK: Present UpdateCategories
+    func presentUpdateCategories(_ response: CategoryList.UpdateCategories.Response)
 }
 
-class CategoryListPresenter: CategoryListPresentationLogic
-{
-  weak var viewController: CategoryListDisplayLogic?
-  
-  // MARK: Do something
-  
-  func presentCategories(response: CategoryList.FetchCategories.Response)
-  {
-    let viewModel = CategoryList.FetchCategories.ViewModel()
-    viewController?.displayCategories(viewModel: viewModel)
-  }
+class CategoryListPresenter: CategoryListPresentationLogic {
+    weak var viewController: CategoryListDisplayLogic?
+    
+    // MARK: Present Categories
+    func presentCategories(_ response: CategoryList.FetchCategories.Response) {
+        if let categories: Array<Category> = response.categories?.toArray(type: Category.self) {
+            let viewModel = CategoryList.FetchCategories.ViewModel(categories: categories)
+            viewController?.displayCategoriesSuccess(viewModel)
+        } else {
+            let errorString = "Erro ao carregar categorias!"
+            let viewModel = CategoryList.FetchCategories.ViewModel(errorString: errorString)
+            viewController?.displayCategoriesError(viewModel)
+        }
+    }
+    
+    
+    // MARK: Present UpdateCategories
+    func presentUpdateCategories(_ response: CategoryList.UpdateCategories.Response) {
+        if let error: Error = response.error {
+            let errorString = error.localizedDescription
+            let viewModel = CategoryList.UpdateCategories.ViewModel(stringError: errorString)
+            viewController?.displayUpdateCategoriesError(viewModel)
+        } else if let addedCategory = response.addedCategory {
+            let viewModel = CategoryList.UpdateCategories.ViewModel(addedCategory: addedCategory)
+            viewController?.displayAddCategoriesSuccess(viewModel)
+        } else if let removedCategory = response.removedCategory {
+            let viewModel = CategoryList.UpdateCategories.ViewModel(removedCategory: removedCategory)
+            viewController?.displayRemoveCategoriesSuccess(viewModel)
+        }
+    }
+    
+    
 }

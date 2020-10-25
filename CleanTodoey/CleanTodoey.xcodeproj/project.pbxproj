@@ -9,9 +9,10 @@
 /* Begin PBXBuildFile section */
 		3B2A65EE2545F34E00DCB7FF /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 3B2A65ED2545F34E00DCB7FF /* Realm */; };
 		3B2A65F02545F34E00DCB7FF /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3B2A65EF2545F34E00DCB7FF /* RealmSwift */; };
+		3B2A66172546057600DCB7FF /* Results.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2A66162546057600DCB7FF /* Results.swift */; };
+		3B2A662D254608B900DCB7FF /* SwipeCellKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3B2A662C254608B900DCB7FF /* SwipeCellKit */; };
 		3BBD58DB2545E02F001CD325 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBD58DA2545E02F001CD325 /* AppDelegate.swift */; };
 		3BBD58DD2545E02F001CD325 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBD58DC2545E02F001CD325 /* SceneDelegate.swift */; };
-		3BBD58DF2545E02F001CD325 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBD58DE2545E02F001CD325 /* ViewController.swift */; };
 		3BBD58E22545E02F001CD325 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BBD58E02545E02F001CD325 /* Main.storyboard */; };
 		3BBD58E42545E031001CD325 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BBD58E32545E031001CD325 /* Assets.xcassets */; };
 		3BBD58E72545E031001CD325 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BBD58E52545E031001CD325 /* LaunchScreen.storyboard */; };
@@ -21,22 +22,16 @@
 		3BBD59012545E174001CD325 /* CategoryListModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBD58FB2545E174001CD325 /* CategoryListModels.swift */; };
 		3BBD59022545E174001CD325 /* CategoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBD58FC2545E174001CD325 /* CategoryListViewController.swift */; };
 		3BBD59032545E174001CD325 /* CategoryListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBD58FD2545E174001CD325 /* CategoryListInteractor.swift */; };
-		3BBD590B2545E180001CD325 /* TodoListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBD59052545E180001CD325 /* TodoListPresenter.swift */; };
-		3BBD590C2545E180001CD325 /* TodoListWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBD59062545E180001CD325 /* TodoListWorker.swift */; };
-		3BBD590D2545E180001CD325 /* TodoListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBD59072545E180001CD325 /* TodoListRouter.swift */; };
-		3BBD590E2545E180001CD325 /* TodoListModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBD59082545E180001CD325 /* TodoListModels.swift */; };
-		3BBD590F2545E180001CD325 /* TodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBD59092545E180001CD325 /* TodoListViewController.swift */; };
-		3BBD59102545E180001CD325 /* TodoListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBD590A2545E180001CD325 /* TodoListInteractor.swift */; };
 		3BF0D8E92545E708005D704C /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0D8E82545E708005D704C /* Category.swift */; };
 		3BF0D8ED2545E712005D704C /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0D8EC2545E712005D704C /* Item.swift */; };
 		F6CF63D2B3BFF748808EFFDB /* Pods_CleanTodoey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A93701273ADE238C5C63A796 /* Pods_CleanTodoey.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3B2A66162546057600DCB7FF /* Results.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Results.swift; sourceTree = "<group>"; };
 		3BBD58D72545E02F001CD325 /* CleanTodoey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleanTodoey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BBD58DA2545E02F001CD325 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BBD58DC2545E02F001CD325 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3BBD58DE2545E02F001CD325 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3BBD58E12545E02F001CD325 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3BBD58E32545E031001CD325 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3BBD58E62545E031001CD325 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,12 +42,6 @@
 		3BBD58FB2545E174001CD325 /* CategoryListModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListModels.swift; sourceTree = "<group>"; };
 		3BBD58FC2545E174001CD325 /* CategoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewController.swift; sourceTree = "<group>"; };
 		3BBD58FD2545E174001CD325 /* CategoryListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListInteractor.swift; sourceTree = "<group>"; };
-		3BBD59052545E180001CD325 /* TodoListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListPresenter.swift; sourceTree = "<group>"; };
-		3BBD59062545E180001CD325 /* TodoListWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListWorker.swift; sourceTree = "<group>"; };
-		3BBD59072545E180001CD325 /* TodoListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListRouter.swift; sourceTree = "<group>"; };
-		3BBD59082545E180001CD325 /* TodoListModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListModels.swift; sourceTree = "<group>"; };
-		3BBD59092545E180001CD325 /* TodoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewController.swift; sourceTree = "<group>"; };
-		3BBD590A2545E180001CD325 /* TodoListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListInteractor.swift; sourceTree = "<group>"; };
 		3BF0D8E82545E708005D704C /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		3BF0D8EC2545E712005D704C /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		50B547DFFEEEB5F1F4C1B5DD /* Pods-CleanTodoey.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CleanTodoey.debug.xcconfig"; path = "Target Support Files/Pods-CleanTodoey/Pods-CleanTodoey.debug.xcconfig"; sourceTree = "<group>"; };
@@ -65,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B2A662D254608B900DCB7FF /* SwipeCellKit in Frameworks */,
 				3B2A65F02545F34E00DCB7FF /* RealmSwift in Frameworks */,
 				3B2A65EE2545F34E00DCB7FF /* Realm in Frameworks */,
 				F6CF63D2B3BFF748808EFFDB /* Pods_CleanTodoey.framework in Frameworks */,
@@ -74,6 +64,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B2A66152546056800DCB7FF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3B2A66162546057600DCB7FF /* Results.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3B2A6627254607F500DCB7FF /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		3BBD58CE2545E02F001CD325 = {
 			isa = PBXGroup;
 			children = (
@@ -95,11 +100,12 @@
 		3BBD58D92545E02F001CD325 /* CleanTodoey */ = {
 			isa = PBXGroup;
 			children = (
+				3B2A6627254607F500DCB7FF /* Components */,
 				3BF0D8E62545E6D7005D704C /* DataModels */,
 				3BBD58F42545E0CC001CD325 /* View */,
 				3BBD58F32545E0C2001CD325 /* Scenes */,
 				3BBD58EF2545E03A001CD325 /* Application */,
-				3BBD58DE2545E02F001CD325 /* ViewController.swift */,
+				3B2A66152546056800DCB7FF /* Extensions */,
 				3BBD58F12545E047001CD325 /* Supporting Files */,
 			);
 			path = CleanTodoey;
@@ -127,7 +133,6 @@
 			isa = PBXGroup;
 			children = (
 				3BBD58F52545E141001CD325 /* CategoryList */,
-				3BBD58F72545E160001CD325 /* TodoList */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -152,19 +157,6 @@
 				3BBD58FD2545E174001CD325 /* CategoryListInteractor.swift */,
 			);
 			path = CategoryList;
-			sourceTree = "<group>";
-		};
-		3BBD58F72545E160001CD325 /* TodoList */ = {
-			isa = PBXGroup;
-			children = (
-				3BBD59052545E180001CD325 /* TodoListPresenter.swift */,
-				3BBD59062545E180001CD325 /* TodoListWorker.swift */,
-				3BBD59072545E180001CD325 /* TodoListRouter.swift */,
-				3BBD59082545E180001CD325 /* TodoListModels.swift */,
-				3BBD59092545E180001CD325 /* TodoListViewController.swift */,
-				3BBD590A2545E180001CD325 /* TodoListInteractor.swift */,
-			);
-			path = TodoList;
 			sourceTree = "<group>";
 		};
 		3BF0D8E62545E6D7005D704C /* DataModels */ = {
@@ -204,6 +196,7 @@
 				3BBD58D32545E02F001CD325 /* Sources */,
 				3BBD58D42545E02F001CD325 /* Frameworks */,
 				3BBD58D52545E02F001CD325 /* Resources */,
+				C8E9D9B55A558BC47740A762 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -213,6 +206,7 @@
 			packageProductDependencies = (
 				3B2A65ED2545F34E00DCB7FF /* Realm */,
 				3B2A65EF2545F34E00DCB7FF /* RealmSwift */,
+				3B2A662C254608B900DCB7FF /* SwipeCellKit */,
 			);
 			productName = CleanTodoey;
 			productReference = 3BBD58D72545E02F001CD325 /* CleanTodoey.app */;
@@ -243,6 +237,7 @@
 			mainGroup = 3BBD58CE2545E02F001CD325;
 			packageReferences = (
 				3B2A65EC2545F34E00DCB7FF /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+				3B2A662B254608B900DCB7FF /* XCRemoteSwiftPackageReference "SwipeCellKit" */,
 			);
 			productRefGroup = 3BBD58D82545E02F001CD325 /* Products */;
 			projectDirPath = "";
@@ -289,6 +284,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		C8E9D9B55A558BC47740A762 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CleanTodoey/Pods-CleanTodoey-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CleanTodoey/Pods-CleanTodoey-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CleanTodoey/Pods-CleanTodoey-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -296,18 +308,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BBD590C2545E180001CD325 /* TodoListWorker.swift in Sources */,
-				3BBD59102545E180001CD325 /* TodoListInteractor.swift in Sources */,
 				3BF0D8ED2545E712005D704C /* Item.swift in Sources */,
 				3BBD59022545E174001CD325 /* CategoryListViewController.swift in Sources */,
 				3BBD58FE2545E174001CD325 /* CategoryListPresenter.swift in Sources */,
-				3BBD590B2545E180001CD325 /* TodoListPresenter.swift in Sources */,
-				3BBD58DF2545E02F001CD325 /* ViewController.swift in Sources */,
+				3B2A66172546057600DCB7FF /* Results.swift in Sources */,
 				3BBD59002545E174001CD325 /* CategoryListRouter.swift in Sources */,
 				3BF0D8E92545E708005D704C /* Category.swift in Sources */,
-				3BBD590D2545E180001CD325 /* TodoListRouter.swift in Sources */,
-				3BBD590E2545E180001CD325 /* TodoListModels.swift in Sources */,
-				3BBD590F2545E180001CD325 /* TodoListViewController.swift in Sources */,
 				3BBD58DB2545E02F001CD325 /* AppDelegate.swift in Sources */,
 				3BBD59012545E174001CD325 /* CategoryListModels.swift in Sources */,
 				3BBD58DD2545E02F001CD325 /* SceneDelegate.swift in Sources */,
@@ -526,6 +532,14 @@
 				minimumVersion = 10.1.0;
 			};
 		};
+		3B2A662B254608B900DCB7FF /* XCRemoteSwiftPackageReference "SwipeCellKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwipeCellKit/SwipeCellKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -538,6 +552,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3B2A65EC2545F34E00DCB7FF /* XCRemoteSwiftPackageReference "realm-cocoa" */;
 			productName = RealmSwift;
+		};
+		3B2A662C254608B900DCB7FF /* SwipeCellKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B2A662B254608B900DCB7FF /* XCRemoteSwiftPackageReference "SwipeCellKit" */;
+			productName = SwipeCellKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
