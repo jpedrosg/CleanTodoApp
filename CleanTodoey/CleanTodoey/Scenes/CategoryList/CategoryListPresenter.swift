@@ -41,14 +41,11 @@ class CategoryListPresenter: CategoryListPresentationLogic {
     func presentUpdateCategories(_ response: CategoryList.UpdateCategories.Response) {
         if let error: Error = response.error {
             let errorString = error.localizedDescription
-            let viewModel = CategoryList.UpdateCategories.ViewModel(stringError: errorString)
+            let viewModel = CategoryList.UpdateCategories.ViewModel(errorString: errorString)
             viewController?.displayUpdateCategoriesError(viewModel)
-        } else if let addedCategory = response.addedCategory {
-            let viewModel = CategoryList.UpdateCategories.ViewModel(addedCategory: addedCategory)
-            viewController?.displayAddCategoriesSuccess(viewModel)
-        } else if let removedCategory = response.removedCategory {
-            let viewModel = CategoryList.UpdateCategories.ViewModel(removedCategory: removedCategory)
-            viewController?.displayRemoveCategoriesSuccess(viewModel)
+        } else {
+            let viewModel = CategoryList.UpdateCategories.ViewModel(categories: response.categories)
+            viewController?.displayUpdateCategoriesSuccess(viewModel)
         }
     }
     

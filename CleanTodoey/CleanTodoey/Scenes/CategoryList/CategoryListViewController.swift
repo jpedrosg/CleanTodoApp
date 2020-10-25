@@ -22,8 +22,7 @@ protocol CategoryListDisplayLogic: class {
     func displayCategoriesError(_ viewModel: CategoryList.FetchCategories.ViewModel)
     
     // MARK: Display Update Categories
-    func displayAddCategoriesSuccess(_ viewModel: CategoryList.UpdateCategories.ViewModel)
-    func displayRemoveCategoriesSuccess(_ viewModel: CategoryList.UpdateCategories.ViewModel)
+    func displayUpdateCategoriesSuccess(_ viewModel: CategoryList.UpdateCategories.ViewModel)
     func displayUpdateCategoriesError(_ viewModel: CategoryList.UpdateCategories.ViewModel)
 }
 
@@ -34,11 +33,13 @@ class CategoryListViewController: UITableViewController {
     
     
     // MARK: Object properties
-    let cellReuseIdentifier = "Cell"
+    
     var categories: Array<Category>?
     var interactor: CategoryListBusinessLogic?
     var router: (NSObjectProtocol & CategoryListRoutingLogic & CategoryListDataPassing)?
     final let NULL_CATEGORIES_COUNT = 0
+    final let DELETE_TITLE = "Delete"
+    final let CELL_IDENTIFIER = "Cell"
     
     // MARK: IBOutlets
 
@@ -124,10 +125,19 @@ class CategoryListViewController: UITableViewController {
         self.interactor?.updateCategories(with: request)
     }
     
+    // MARK: Screen Changes
+    
+    fileprivate func updateModel(at indexPath: IndexPath) {
+        if let categoryForDeletion = self.categories?[indexPath.row] {
+            let request = CategoryList.UpdateCategories.Request(method: CategoryList.UpdateCategories.Request.Method.remove, category: categoryForDeletion)
+            self.interactor?.updateCategories(with: request)
+        }
+    }
+    
     
     // MARK: - UITableViewController
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let contextItem = UIContextualAction(style: .destructive, title: "Delete") {  (contextualAction, view, boolValue) in
+        let contextItem = UIContextualAction(style: .destructive, title: DELETE_TITLE) {  (contextualAction, view, boolValue) in
             self.updateModel(at: indexPath)
         }
         let swipeActions = UISwipeActionsConfiguration(actions: [contextItem])
@@ -135,22 +145,14 @@ class CategoryListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories?.count ?? 1
+        return categories?.count ?? NULL_CATEGORIES_COUNT
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: CELL_IDENTIFIER, for: indexPath)
         cell.selectionStyle = .none
-        cell.textLabel?.text = categories?[indexPath.row].name ?? "teste"
+        cell.textLabel?.text = categories![indexPath.row].name
         return cell
-    }
-
-    
-    func updateModel(at indexPath: IndexPath) {
-        if let categoryForDeletion = self.categories?[indexPath.row] {
-            let request = CategoryList.UpdateCategories.Request(method: CategoryList.UpdateCategories.Request.Method.remove, category: categoryForDeletion)
-            self.interactor?.updateCategories(with: request)
-        }
     }
 }
 
@@ -174,28 +176,14 @@ extension CategoryListViewController: CategoryListDisplayLogic{
     
     
     // MARK: Display Update Categories
-    
-    func displayUpdateCategoriesSuccess() {
+
+    func displayUpdateCategoriesSuccess(_ viewModel: CategoryList.UpdateCategories.ViewModel) {
+        categories = viewModel.categories
         tableView.reloadData()
-    }
-    func displayAddCategoriesSuccess(_ viewModel: CategoryList.UpdateCategories.ViewModel) {
-        if let category = viewModel.addedCategory {
-            categories?.append(category)
-            displayUpdateCategoriesSuccess()
-        }
-    }
-    
-    func displayRemoveCategoriesSuccess(_ viewModel: CategoryList.UpdateCategories.ViewModel) {
-        if let category = viewModel.removedCategory {
-            if let correctIndex = categories?.firstIndex(of: category) {
-                self.categories?.remove(at: correctIndex)
-            }
-            displayUpdateCategoriesSuccess()
-        }
     }
     
     func displayUpdateCategoriesError(_ viewModel: CategoryList.UpdateCategories.ViewModel) {
-        if let error = viewModel.stringError {
+        if let error = viewModel.errorString {
             print(error)
         }
     }

@@ -42,12 +42,12 @@ enum CategoryList
         struct Response {
             var addedCategory: Category?
             var removedCategory: Category?
+            var categories: Array<Category>? = []
             var error: Error?
         }
         struct ViewModel {
-            var addedCategory: Category?
-            var removedCategory: Category?
-            var stringError: String?
+            var categories: Array<Category>? = []
+            var errorString: String?
         }
     }
 }

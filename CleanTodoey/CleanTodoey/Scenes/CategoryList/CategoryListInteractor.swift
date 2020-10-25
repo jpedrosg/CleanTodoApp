@@ -18,10 +18,12 @@ protocol CategoryListBusinessLogic {
 }
 
 protocol CategoryListDataStore {
-    //var name: String { get set }
+    var categories: Array<Category>? { get set }
 }
 
 class CategoryListInteractor: CategoryListBusinessLogic, CategoryListDataStore {
+    var categories: Array<Category>? = []
+    
 
     // MARK: Properties
     
@@ -35,12 +37,12 @@ class CategoryListInteractor: CategoryListBusinessLogic, CategoryListDataStore {
         worker = CategoryListWorker()
         worker?.fetchCategories()
             .done(handleFetchCategories)
-        
-        let response = CategoryList.FetchCategories.Response()
-        presenter?.presentCategories(response)
     }
     
     private func handleFetchCategories(response: CategoryList.FetchCategories.Response){
+        if let categories: Array<Category> = response.categories?.toArray(type: Category.self) {
+            self.categories = categories
+        }
         presenter?.presentCategories(response)
     }
     
@@ -55,7 +57,13 @@ class CategoryListInteractor: CategoryListBusinessLogic, CategoryListDataStore {
     }
     
     private func handleUpdateCategoriesSuccess(response: CategoryList.UpdateCategories.Response){
-        presenter?.presentUpdateCategories(response)
+        if let category = response.addedCategory {
+            categories?.append(category)
+        } else if let category = response.removedCategory, let correctIndex = categories?.firstIndex(of: category) {
+            categories?.remove(at: correctIndex)
+        }
+        let finalResponse = CategoryList.UpdateCategories.Response(categories:self.categories, error: response.error)
+        presenter?.presentUpdateCategories(finalResponse)
     }
     
     private func handleUpdateCategoriesError(error: Error){
