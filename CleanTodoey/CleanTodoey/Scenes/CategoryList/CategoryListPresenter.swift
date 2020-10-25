@@ -15,39 +15,47 @@ import UIKit
 protocol CategoryListPresentationLogic {
     
     // MARK: Present Categories
-    func presentCategories(_ response: CategoryList.FetchCategories.Response)
+    func presentCategories(_ response: CategoryListModel.FetchCategories.Response)
     
     // MARK: Present UpdateCategories
-    func presentUpdateCategories(_ response: CategoryList.UpdateCategories.Response)
+    func presentUpdateCategories(_ response: CategoryListModel.UpdateCategories.Response)
+    
+    // MARK: Present TodoList
+    func presentTodoList()
 }
 
 class CategoryListPresenter: CategoryListPresentationLogic {
     weak var viewController: CategoryListDisplayLogic?
     
     // MARK: Present Categories
-    func presentCategories(_ response: CategoryList.FetchCategories.Response) {
+    func presentCategories(_ response: CategoryListModel.FetchCategories.Response) {
         if let categories: Array<Category> = response.categories?.toArray(type: Category.self) {
-            let viewModel = CategoryList.FetchCategories.ViewModel(categories: categories)
+            let viewModel = CategoryListModel.FetchCategories.ViewModel(categories: categories)
             viewController?.displayCategoriesSuccess(viewModel)
         } else {
             let errorString = "Erro ao carregar categorias!"
-            let viewModel = CategoryList.FetchCategories.ViewModel(errorString: errorString)
+            let viewModel = CategoryListModel.FetchCategories.ViewModel(errorString: errorString)
             viewController?.displayCategoriesError(viewModel)
         }
     }
     
     
     // MARK: Present UpdateCategories
-    func presentUpdateCategories(_ response: CategoryList.UpdateCategories.Response) {
+    func presentUpdateCategories(_ response: CategoryListModel.UpdateCategories.Response) {
         if let error: Error = response.error {
             let errorString = error.localizedDescription
-            let viewModel = CategoryList.UpdateCategories.ViewModel(errorString: errorString)
+            let viewModel = CategoryListModel.UpdateCategories.ViewModel(errorString: errorString)
             viewController?.displayUpdateCategoriesError(viewModel)
         } else {
-            let viewModel = CategoryList.UpdateCategories.ViewModel(categories: response.categories)
+            let viewModel = CategoryListModel.UpdateCategories.ViewModel(categories: response.categories)
             viewController?.displayUpdateCategoriesSuccess(viewModel)
         }
     }
     
+    
+    // MARK: Present TodoList
+    func presentTodoList() {
+        viewController?.displayTodoList()
+    }
     
 }

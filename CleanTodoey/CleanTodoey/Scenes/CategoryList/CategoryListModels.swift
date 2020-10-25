@@ -13,8 +13,7 @@
 import UIKit
 import RealmSwift
 
-enum CategoryList
-{
+enum CategoryListModel {
     // MARK: Fetch Categories
     
     enum FetchCategories {

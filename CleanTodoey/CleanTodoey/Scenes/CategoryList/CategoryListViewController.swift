@@ -18,12 +18,15 @@ import UIKit
 protocol CategoryListDisplayLogic: class {
     
     // MARK: Display Categories
-    func displayCategoriesSuccess(_ viewModel: CategoryList.FetchCategories.ViewModel)
-    func displayCategoriesError(_ viewModel: CategoryList.FetchCategories.ViewModel)
+    func displayCategoriesSuccess(_ viewModel: CategoryListModel.FetchCategories.ViewModel)
+    func displayCategoriesError(_ viewModel: CategoryListModel.FetchCategories.ViewModel)
     
     // MARK: Display Update Categories
-    func displayUpdateCategoriesSuccess(_ viewModel: CategoryList.UpdateCategories.ViewModel)
-    func displayUpdateCategoriesError(_ viewModel: CategoryList.UpdateCategories.ViewModel)
+    func displayUpdateCategoriesSuccess(_ viewModel: CategoryListModel.UpdateCategories.ViewModel)
+    func displayUpdateCategoriesError(_ viewModel: CategoryListModel.UpdateCategories.ViewModel)
+    
+    // MARK: Display Update Categories
+    func displayTodoList()
 }
 
 
@@ -40,10 +43,7 @@ class CategoryListViewController: UITableViewController {
     final let NULL_CATEGORIES_COUNT = 0
     final let DELETE_TITLE = "Delete"
     final let CELL_IDENTIFIER = "Cell"
-    
-    // MARK: IBOutlets
-
-    
+    final let SEGUE_TO_TODOLIST = "TodoList"
     
     // MARK: Object lifecycle
     
@@ -103,7 +103,7 @@ class CategoryListViewController: UITableViewController {
             // New Category:
             let newCategory = Category()
             newCategory.name = textField.text!
-            let request = CategoryList.UpdateCategories.Request(method: CategoryList.UpdateCategories.Request.Method.add, category: newCategory)
+            let request = CategoryListModel.UpdateCategories.Request(method: CategoryListModel.UpdateCategories.Request.Method.add, category: newCategory)
             self.updateCategories(request)
         }
         alert.addAction(action)
@@ -121,7 +121,7 @@ class CategoryListViewController: UITableViewController {
         interactor?.fetchCategories()
     }
     
-    fileprivate func updateCategories(_ request: CategoryList.UpdateCategories.Request) {
+    fileprivate func updateCategories(_ request: CategoryListModel.UpdateCategories.Request) {
         self.interactor?.updateCategories(with: request)
     }
     
@@ -129,7 +129,7 @@ class CategoryListViewController: UITableViewController {
     
     fileprivate func updateModel(at indexPath: IndexPath) {
         if let categoryForDeletion = self.categories?[indexPath.row] {
-            let request = CategoryList.UpdateCategories.Request(method: CategoryList.UpdateCategories.Request.Method.remove, category: categoryForDeletion)
+            let request = CategoryListModel.UpdateCategories.Request(method: CategoryListModel.UpdateCategories.Request.Method.remove, category: categoryForDeletion)
             self.interactor?.updateCategories(with: request)
         }
     }
@@ -150,9 +150,13 @@ class CategoryListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CELL_IDENTIFIER, for: indexPath)
-        cell.selectionStyle = .none
+        cell.selectionStyle = .default
         cell.textLabel?.text = categories![indexPath.row].name
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        interactor?.didSelectRow(index: indexPath.row)
     }
 }
 
@@ -163,12 +167,12 @@ extension CategoryListViewController: CategoryListDisplayLogic{
     
     // MARK: Display Categories
     
-    func displayCategoriesSuccess(_ viewModel: CategoryList.FetchCategories.ViewModel) {
+    func displayCategoriesSuccess(_ viewModel: CategoryListModel.FetchCategories.ViewModel) {
         self.categories = viewModel.categories
         tableView.reloadData()
     }
     
-    func displayCategoriesError(_ viewModel: CategoryList.FetchCategories.ViewModel) {
+    func displayCategoriesError(_ viewModel: CategoryListModel.FetchCategories.ViewModel) {
         if let error = viewModel.errorString {
             print(error)
         }
@@ -177,14 +181,20 @@ extension CategoryListViewController: CategoryListDisplayLogic{
     
     // MARK: Display Update Categories
 
-    func displayUpdateCategoriesSuccess(_ viewModel: CategoryList.UpdateCategories.ViewModel) {
+    func displayUpdateCategoriesSuccess(_ viewModel: CategoryListModel.UpdateCategories.ViewModel) {
         categories = viewModel.categories
         tableView.reloadData()
     }
     
-    func displayUpdateCategoriesError(_ viewModel: CategoryList.UpdateCategories.ViewModel) {
+    func displayUpdateCategoriesError(_ viewModel: CategoryListModel.UpdateCategories.ViewModel) {
         if let error = viewModel.errorString {
             print(error)
         }
+    }
+    
+    
+    // MARK: Display Update Categories
+    func displayTodoList() {
+        performSegue(withIdentifier: SEGUE_TO_TODOLIST, sender: self)
     }
 }

@@ -13,20 +13,26 @@
 import UIKit
 
 protocol CategoryListBusinessLogic {
+    
+    // MARK: Fetch Categories
     func fetchCategories()
-    func updateCategories(with request: CategoryList.UpdateCategories.Request)
+    
+    // MARK: Update Categories
+    func updateCategories(with request: CategoryListModel.UpdateCategories.Request)
+    
+    // MARK: DidSelect Row
+    func didSelectRow(index: Int)
 }
 
 protocol CategoryListDataStore {
-    var categories: Array<Category>? { get set }
+    var selectedItem: Category? { get set }
 }
 
 class CategoryListInteractor: CategoryListBusinessLogic, CategoryListDataStore {
-    var categories: Array<Category>? = []
-    
 
     // MARK: Properties
-    
+    var selectedItem: Category?
+    var categories: Array<Category>?
     var presenter: CategoryListPresentationLogic?
     var worker: CategoryListWorker?
     
@@ -39,7 +45,7 @@ class CategoryListInteractor: CategoryListBusinessLogic, CategoryListDataStore {
             .done(handleFetchCategories)
     }
     
-    private func handleFetchCategories(response: CategoryList.FetchCategories.Response){
+    private func handleFetchCategories(response: CategoryListModel.FetchCategories.Response){
         if let categories: Array<Category> = response.categories?.toArray(type: Category.self) {
             self.categories = categories
         }
@@ -49,25 +55,34 @@ class CategoryListInteractor: CategoryListBusinessLogic, CategoryListDataStore {
     
     // MARK: Update Categories
     
-    func updateCategories(with request: CategoryList.UpdateCategories.Request) {
+    func updateCategories(with request: CategoryListModel.UpdateCategories.Request) {
         worker = CategoryListWorker()
         worker?.updateCategories(with: request)
             .done(handleUpdateCategoriesSuccess)
             .catch(handleUpdateCategoriesError)
     }
     
-    private func handleUpdateCategoriesSuccess(response: CategoryList.UpdateCategories.Response){
+    private func handleUpdateCategoriesSuccess(response: CategoryListModel.UpdateCategories.Response){
         if let category = response.addedCategory {
             categories?.append(category)
         } else if let category = response.removedCategory, let correctIndex = categories?.firstIndex(of: category) {
             categories?.remove(at: correctIndex)
         }
-        let finalResponse = CategoryList.UpdateCategories.Response(categories:self.categories, error: response.error)
+        let finalResponse = CategoryListModel.UpdateCategories.Response(categories:self.categories, error: response.error)
         presenter?.presentUpdateCategories(finalResponse)
     }
     
     private func handleUpdateCategoriesError(error: Error){
-        let response = CategoryList.UpdateCategories.Response(error: error)
+        let response = CategoryListModel.UpdateCategories.Response(error: error)
         presenter?.presentUpdateCategories(response)
+    }
+    
+    
+    // MARK: DidSelect Row
+    
+    func didSelectRow(index: Int) {
+        guard let item = categories?[index] else { return }
+        selectedItem = item
+        presenter?.presentTodoList()
     }
 }

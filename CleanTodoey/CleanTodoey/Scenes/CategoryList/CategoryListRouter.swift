@@ -14,7 +14,7 @@ import UIKit
 
 @objc protocol CategoryListRoutingLogic
 {
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
+  func routeToTodoList(segue: UIStoryboardSegue?)
 }
 
 protocol CategoryListDataPassing
@@ -29,32 +29,29 @@ class CategoryListRouter: NSObject, CategoryListRoutingLogic, CategoryListDataPa
   
   // MARK: Routing
   
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
-  //{
-  //  if let segue = segue {
-  //    let destinationVC = segue.destination as! SomewhereViewController
-  //    var destinationDS = destinationVC.router!.dataStore!
-  //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-  //  } else {
-  //    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-  //    let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-  //    var destinationDS = destinationVC.router!.dataStore!
-  //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-  //    navigateToSomewhere(source: viewController!, destination: destinationVC)
-  //  }
-  //}
+  func routeToTodoList(segue: UIStoryboardSegue?) {
+    if let segue = segue {
+      let destinationVC = segue.destination as! TodoListViewController
+      var destinationDS = destinationVC.router!.dataStore!
+      passDataToTodoList(source: dataStore!, destination: &destinationDS)
+    } else {
+      let storyboard = UIStoryboard(name: "Main", bundle: nil)
+      let destinationVC = storyboard.instantiateViewController(withIdentifier: "TodoListViewController") as! TodoListViewController
+      var destinationDS = destinationVC.router!.dataStore!
+      passDataToTodoList(source: dataStore!, destination: &destinationDS)
+      navigateToTodoList(source: viewController!, destination: destinationVC)
+    }
+  }
 
   // MARK: Navigation
   
-  //func navigateToSomewhere(source: CategoryListViewController, destination: SomewhereViewController)
-  //{
-  //  source.show(destination, sender: nil)
-  //}
+  func navigateToTodoList(source: CategoryListViewController, destination: TodoListViewController) {
+    source.show(destination, sender: nil)
+  }
   
   // MARK: Passing data
   
-  //func passDataToSomewhere(source: CategoryListDataStore, destination: inout SomewhereDataStore)
-  //{
-  //  destination.name = source.name
-  //}
+  func passDataToTodoList(source: CategoryListDataStore, destination: inout TodoListDataStore) {
+    destination.selectedCategory = source.selectedItem
+  }
 }

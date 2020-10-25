@@ -17,10 +17,10 @@ import RealmSwift
 protocol CategoryListDatabaseLogic {
     
     // MARK: Fetch Categories
-    func fetchCategories() -> Promise<CategoryList.FetchCategories.Response>
+    func fetchCategories() -> Promise<CategoryListModel.FetchCategories.Response>
     
     // MARK: Update Categories
-    func updateCategories(with request: CategoryList.UpdateCategories.Request) -> Promise<CategoryList.UpdateCategories.Response>
+    func updateCategories(with request: CategoryListModel.UpdateCategories.Request) -> Promise<CategoryListModel.UpdateCategories.Response>
 }
 
 class CategoryListWorker: CategoryListDatabaseLogic {
@@ -30,32 +30,32 @@ class CategoryListWorker: CategoryListDatabaseLogic {
     
     
     // MARK: Fetch Categories
-    func fetchCategories() -> Promise<CategoryList.FetchCategories.Response> {
+    func fetchCategories() -> Promise<CategoryListModel.FetchCategories.Response> {
         return Promise { seal in
-            let response = CategoryList.FetchCategories.Response(categories: realm.objects(Category.self))
+            let response = CategoryListModel.FetchCategories.Response(categories: realm.objects(Category.self))
             seal.fulfill(response)
         }
     }
     
     
     // MARK: Update Categories
-    func updateCategories(with request: CategoryList.UpdateCategories.Request) -> Promise<CategoryList.UpdateCategories.Response> {
+    func updateCategories(with request: CategoryListModel.UpdateCategories.Request) -> Promise<CategoryListModel.UpdateCategories.Response> {
         return Promise { seal in
             do {
-                if(request.method == CategoryList.UpdateCategories.Request.Method.add) {
+                if(request.method == CategoryListModel.UpdateCategories.Request.Method.add) {
                     try realm.write {
                         realm.add(request.category)
-                        seal.fulfill(CategoryList.UpdateCategories.Response(addedCategory: request.category))
+                        seal.fulfill(CategoryListModel.UpdateCategories.Response(addedCategory: request.category))
                     }
-                } else if(request.method == CategoryList.UpdateCategories.Request.Method.remove) {
+                } else if(request.method == CategoryListModel.UpdateCategories.Request.Method.remove) {
                     try realm.write {
                         realm.delete(request.category)
-                        seal.fulfill(CategoryList.UpdateCategories.Response(removedCategory: request.category))
+                        seal.fulfill(CategoryListModel.UpdateCategories.Response(removedCategory: request.category))
                     }
                 }
                 
             } catch {
-                seal.fulfill(CategoryList.UpdateCategories.Response(error: error))
+                seal.fulfill(CategoryListModel.UpdateCategories.Response(error: error))
             }
         }
     }
