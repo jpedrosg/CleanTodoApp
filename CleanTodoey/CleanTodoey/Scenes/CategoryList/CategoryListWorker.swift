@@ -55,7 +55,7 @@ class CategoryListWorker: CategoryListDatabaseLogic {
                 }
                 
             } catch {
-                seal.fulfill(CategoryListModel.UpdateCategories.Response(error: error))
+                seal.reject(error)
             }
         }
     }

@@ -11,21 +11,58 @@
 //
 
 import UIKit
+import RealmSwift
 
-enum TodoList
-{
-  // MARK: Use cases
-  
-  enum Something
-  {
-    struct Request
-    {
+enum TodoListModel {
+    // MARK: Fetch Items
+    
+    enum FetchItems {
+        struct Request {
+            var currentCategory: Category?
+        }
+        struct Response {
+            var items: Results<Item>?
+            var currentCategory: Category?
+        }
+        struct ViewModel {
+            var items: Array<Item>?
+            var errorString: String?
+            var currentCategory: Category?
+        }
     }
-    struct Response
-    {
+    
+    
+    // MARK: Update Items
+    
+    enum UpdateItems {
+        struct Request {
+            enum Method {
+                case add
+                case remove
+            }
+            var method: Method
+            var item: Item
+            var currentCategory: Category?
+        }
+        struct Response {
+            var updatedCategory: Category = Category()
+            var error: Error?
+        }
+        struct ViewModel {
+            var errorString: String?
+            var updatedCategory: Category = Category()
+        }
     }
-    struct ViewModel
-    {
+    
+    
+    // MARK: Update Items
+    
+    enum GetSelectedCategory {
+        struct Response {
+            var selectedCategory: Category
+        }
+        struct ViewModel {
+            var selectedCategory: Category
+        }
     }
-  }
 }

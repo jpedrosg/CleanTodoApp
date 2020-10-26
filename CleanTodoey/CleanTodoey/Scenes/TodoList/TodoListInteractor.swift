@@ -12,32 +12,79 @@
 
 import UIKit
 
-protocol TodoListBusinessLogic
-{
-    func doSomething(request: TodoList.Something.Request)
+protocol TodoListBusinessLogic {
+    
+    // MARK: Fetch Items
+    func fetchItems(with request: TodoListModel.FetchItems.Request)
+    
+    // MARK: Update Items
+    func updateItems(with request: TodoListModel.UpdateItems.Request)
+    
+    // MARK: DidSelect Row
+    func didSelectRow(index: Int)
+    
+    // MARK: Get Selected Category
+    func getSelectedCategory()
 }
 
-protocol TodoListDataStore
-{
-    var selectedCategory: Category? { get set }
+protocol TodoListDataStore {
+    var selectedCategory: Category { get set }
 }
 
-class TodoListInteractor: TodoListBusinessLogic, TodoListDataStore
-{
-    
-    
+class TodoListInteractor: TodoListBusinessLogic, TodoListDataStore {
+
+    // MARK: Properties
+    var selectedCategory: Category = Category()
     var presenter: TodoListPresentationLogic?
     var worker: TodoListWorker?
-    var selectedCategory: Category?
     
-    // MARK: Do something
     
-    func doSomething(request: TodoList.Something.Request)
-    {
+    // MARK: Fetch Items
+    
+    func fetchItems(with request: TodoListModel.FetchItems.Request) {
+        let finalRequest = TodoListModel.FetchItems.Request(currentCategory: self.selectedCategory)
         worker = TodoListWorker()
-        worker?.doSomeWork()
-        
-        let response = TodoList.Something.Response()
-        presenter?.presentSomething(response: response)
+        worker?.fetchItems(with: finalRequest)
+            .done(handleFetchItems)
+    }
+    
+    private func handleFetchItems(response: TodoListModel.FetchItems.Response){
+        presenter?.presentItems(response)
+    }
+    
+    
+    // MARK: Update Items
+    
+    func updateItems(with request: TodoListModel.UpdateItems.Request) {
+        let finalRequest = TodoListModel.UpdateItems.Request(method: request.method, item: request.item, currentCategory: self.selectedCategory)
+        worker = TodoListWorker()
+        worker?.updateItems(with: finalRequest)
+            .done(handleUpdateItemsSuccess)
+            .catch(handleUpdateItemsError)
+    }
+    
+    private func handleUpdateItemsSuccess(response: TodoListModel.UpdateItems.Response){
+        presenter?.presentUpdateItems(response)
+    }
+    
+    private func handleUpdateItemsError(error: Error){
+        let response = TodoListModel.UpdateItems.Response(error: error)
+        presenter?.presentUpdateItems(response)
+    }
+    
+    
+    // MARK: DidSelect Row
+
+    func didSelectRow(index: Int) {
+//        guard let item = items?[index] else { return }
+//        selectedItem = item
+//        presenter?.presentTodoList()
+    }
+    
+    
+    // MARK: Get Selected Category
+    func getSelectedCategory() {
+        let response = TodoListModel.GetSelectedCategory.Response(selectedCategory: self.selectedCategory)
+        presenter?.presentSelectedCategory(response)
     }
 }

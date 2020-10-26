@@ -52,6 +52,8 @@ class CategoryListRouter: NSObject, CategoryListRoutingLogic, CategoryListDataPa
   // MARK: Passing data
   
   func passDataToTodoList(source: CategoryListDataStore, destination: inout TodoListDataStore) {
-    destination.selectedCategory = source.selectedItem
+    if let selectedItem = source.selectedItem {
+        destination.selectedCategory = selectedItem
+    }
   }
 }

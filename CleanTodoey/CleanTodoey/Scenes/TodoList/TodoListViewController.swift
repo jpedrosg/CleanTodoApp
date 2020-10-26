@@ -11,79 +11,196 @@
 //
 
 import UIKit
+import RealmSwift
 
-protocol TodoListDisplayLogic: class
-{
-  func displaySomething(viewModel: TodoList.Something.ViewModel)
+protocol TodoListDisplayLogic: class {
+    
+    // MARK: Display Categories
+    func displayItemsSuccess(_ viewModel: TodoListModel.FetchItems.ViewModel)
+    func displayItemsError(_ viewModel: TodoListModel.FetchItems.ViewModel)
+    
+    // MARK: Display Update Categories
+    func displayUpdateItemsSuccess(_ viewModel: TodoListModel.UpdateItems.ViewModel)
+    func displayUpdateItemsError(_ viewModel: TodoListModel.UpdateItems.ViewModel)
+    
+    // MARK: Display Update Categories
+    func displayTodoList()
+    
+    // MARK: Display Selected Category
+    func displaySelectedCategory(_ viewModel: TodoListModel.GetSelectedCategory.ViewModel)
 }
 
-class TodoListViewController: UIViewController, TodoListDisplayLogic
-{
-  var interactor: TodoListBusinessLogic?
-  var router: (NSObjectProtocol & TodoListRoutingLogic & TodoListDataPassing)?
-
-  // MARK: Object lifecycle
-  
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
-  {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    setup()
-  }
-  
-  required init?(coder aDecoder: NSCoder)
-  {
-    super.init(coder: aDecoder)
-    setup()
-  }
-  
-  // MARK: Setup
-  
-  private func setup()
-  {
-    let viewController = self
-    let interactor = TodoListInteractor()
-    let presenter = TodoListPresenter()
-    let router = TodoListRouter()
-    viewController.interactor = interactor
-    viewController.router = router
-    interactor.presenter = presenter
-    presenter.viewController = viewController
-    router.viewController = viewController
-    router.dataStore = interactor
-  }
-  
-  // MARK: Routing
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-  {
-    if let scene = segue.identifier {
-      let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-      if let router = router, router.responds(to: selector) {
-        router.perform(selector, with: segue)
-      }
+class TodoListViewController: UITableViewController {
+    
+    
+    // MARK: Object properties
+    
+    var interactor: TodoListBusinessLogic?
+    var router: (NSObjectProtocol & TodoListRoutingLogic & TodoListDataPassing)?
+    final let NULL_TODO_COUNT = 0
+    final let DELETE_TITLE = "Delete"
+    final let CELL_IDENTIFIER = "TodoCell"
+    var selectedCategory: Category?
+    
+    
+    // MARK: Object lifecycle
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        setup()
     }
-  }
-  
-  // MARK: View lifecycle
-  
-  override func viewDidLoad()
-  {
-    super.viewDidLoad()
-    doSomething()
-  }
-  
-  // MARK: Do something
-  
-  //@IBOutlet weak var nameTextField: UITextField!
-  
-  func doSomething()
-  {
-    let request = TodoList.Something.Request()
-    interactor?.doSomething(request: request)
-  }
-  
-  func displaySomething(viewModel: TodoList.Something.ViewModel)
-  {
-    //nameTextField.text = viewModel.name
-  }
+    
+    required init?(coder aDecoder: NSCoder){
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    // MARK: Setup
+    
+    private func setup(){
+        let viewController = self
+        let interactor = TodoListInteractor()
+        let presenter = TodoListPresenter()
+        let router = TodoListRouter()
+        viewController.interactor = interactor
+        viewController.router = router
+        interactor.presenter = presenter
+        presenter.viewController = viewController
+        router.viewController = viewController
+        router.dataStore = interactor
+    }
+    
+    // MARK: Routing
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        if let scene = segue.identifier {
+            let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
+            if let router = router, router.responds(to: selector) {
+                router.perform(selector, with: segue)
+            }
+        }
+    }
+
+    
+    
+    // MARK: View lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        getSelectedCategory()
+    }
+    
+    
+    // MARK: IBActions
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        var textField = UITextField()
+        let alert = UIAlertController(title: "Add a New Todo Item", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Add", style: .default) { (action) in
+            // New Category:
+            let newItem = Item()
+            newItem.title = textField.text!
+            let request = TodoListModel.UpdateItems.Request(method: TodoListModel.UpdateItems.Request.Method.add, item: newItem)
+            self.updateItems(request)
+        }
+        alert.addAction(action)
+        alert.addTextField { (field) in
+            textField = field
+            textField.placeholder = "Add a new category"
+        }
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
+    // MARK: Requests
+    
+    fileprivate func getSelectedCategory() {
+        interactor?.getSelectedCategory()
+    }
+    
+    fileprivate func updateItems(_ request: TodoListModel.UpdateItems.Request) {
+        self.interactor?.updateItems(with: request)
+    }
+
+    
+    // MARK: Screen Changes
+    
+    fileprivate func updateModel(at indexPath: IndexPath) {
+        if let itemForDeletion = self.selectedCategory?.items[indexPath.row] {
+            let request = TodoListModel.UpdateItems.Request(method: TodoListModel.UpdateItems.Request.Method.remove, item: itemForDeletion)
+            self.interactor?.updateItems(with: request)
+        }
+    }
+    
+    
+    // MARK: - UITableViewController
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let contextItem = UIContextualAction(style: .destructive, title: DELETE_TITLE) {  (contextualAction, view, boolValue) in
+            self.updateModel(at: indexPath)
+        }
+        let swipeActions = UISwipeActionsConfiguration(actions: [contextItem])
+        return swipeActions
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return selectedCategory?.items.count ?? NULL_TODO_COUNT
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: CELL_IDENTIFIER, for: indexPath)
+        cell.selectionStyle = .default
+        cell.textLabel?.text = selectedCategory?.items[indexPath.row].title
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        interactor?.didSelectRow(index: indexPath.row)
+    }
+}
+
+
+// MARK: - CategoryListDisplayLogic
+
+extension TodoListViewController: TodoListDisplayLogic{
+    
+    // MARK: Display Categories
+    
+    func displayItemsSuccess(_ viewModel: TodoListModel.FetchItems.ViewModel) {
+        self.selectedCategory = viewModel.currentCategory
+        tableView.reloadData()
+    }
+    
+    func displayItemsError(_ viewModel: TodoListModel.FetchItems.ViewModel) {
+        if let error = viewModel.errorString {
+            print(error)
+        }
+    }
+    
+    
+    // MARK: Display Update Categories
+
+    func displayUpdateItemsSuccess(_ viewModel: TodoListModel.UpdateItems.ViewModel) {
+        self.selectedCategory = viewModel.updatedCategory
+        tableView.reloadData()
+    }
+    
+    func displayUpdateItemsError(_ viewModel: TodoListModel.UpdateItems.ViewModel) {
+        if let error = viewModel.errorString {
+            print(error)
+        }
+    }
+    
+    
+    // MARK: Display Update Items
+    
+    func displayTodoList() {
+//        performSegue(withIdentifier: SEGUE_TO_TODOLIST, sender: self)
+    }
+    
+    
+    // MARK: Display Selected Category
+    
+    func displaySelectedCategory(_ viewModel: TodoListModel.GetSelectedCategory.ViewModel) {
+        self.selectedCategory = viewModel.selectedCategory
+    }
 }

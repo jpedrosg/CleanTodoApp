@@ -12,20 +12,60 @@
 
 import UIKit
 
-protocol TodoListPresentationLogic
-{
-  func presentSomething(response: TodoList.Something.Response)
+protocol TodoListPresentationLogic {
+    
+    // MARK: Present Items
+    func presentItems(_ response: TodoListModel.FetchItems.Response)
+    
+    // MARK: Present UpdateItems
+    func presentUpdateItems(_ response: TodoListModel.UpdateItems.Response)
+    
+    // MARK: Present TodoList
+    func presentTodoList()
+    
+    // MARK: Present Selected Item
+    func presentSelectedCategory(_ response: TodoListModel.GetSelectedCategory.Response)
 }
 
-class TodoListPresenter: TodoListPresentationLogic
-{
-  weak var viewController: TodoListDisplayLogic?
-  
-  // MARK: Do something
-  
-  func presentSomething(response: TodoList.Something.Response)
-  {
-    let viewModel = TodoList.Something.ViewModel()
-    viewController?.displaySomething(viewModel: viewModel)
-  }
+class TodoListPresenter: TodoListPresentationLogic {
+    weak var viewController: TodoListDisplayLogic?
+    
+    // MARK: Present Items
+    func presentItems(_ response: TodoListModel.FetchItems.Response) {
+        if let items: Array<Item> = response.items?.toArray(type: Item.self) {
+            let viewModel = TodoListModel.FetchItems.ViewModel(items: items)
+            viewController?.displayItemsSuccess(viewModel)
+        } else {
+            let errorString = "Erro ao carregar itens!"
+            let viewModel = TodoListModel.FetchItems.ViewModel(errorString: errorString)
+            viewController?.displayItemsError(viewModel)
+        }
+    }
+    
+    
+    // MARK: Present UpdateItems
+    func presentUpdateItems(_ response: TodoListModel.UpdateItems.Response) {
+        if let error: Error = response.error {
+            let errorString = error.localizedDescription
+            let viewModel = TodoListModel.UpdateItems.ViewModel(errorString: errorString)
+            viewController?.displayUpdateItemsError(viewModel)
+        } else {
+            let viewModel = TodoListModel.UpdateItems.ViewModel(updatedCategory: response.updatedCategory)
+            viewController?.displayUpdateItemsSuccess(viewModel)
+        }
+    }
+    
+    
+    // MARK: Present TodoList
+    func presentTodoList() {
+        viewController?.displayTodoList()
+    }
+    
+    
+    // MARK: Present Selected Item
+    func presentSelectedCategory(_ response: TodoListModel.GetSelectedCategory.Response) {
+        let viewModel = TodoListModel.GetSelectedCategory.ViewModel(selectedCategory: response.selectedCategory)
+        viewController?.displaySelectedCategory(viewModel)
+    }
+    
 }

@@ -11,10 +11,53 @@
 //
 
 import UIKit
+import PromiseKit
+import RealmSwift
 
-class TodoListWorker
-{
-  func doSomeWork()
-  {
-  }
+protocol TodoListDatabaseLogic {
+    
+    // MARK: Fetch Items
+    func fetchItems(with request: TodoListModel.FetchItems.Request) -> Promise<TodoListModel.FetchItems.Response>
+    
+    // MARK: Update Items
+    func updateItems(with request: TodoListModel.UpdateItems.Request) -> Promise<TodoListModel.UpdateItems.Response>
+}
+
+class TodoListWorker: TodoListDatabaseLogic {
+    
+    // MARK: Properties
+    let realm = try! Realm()
+    final let KEY_PATH = "title"
+    
+    
+    // MARK: Fetch Items
+    func fetchItems(with request: TodoListModel.FetchItems.Request) -> Promise<TodoListModel.FetchItems.Response> {
+        return Promise { seal in
+            let items = request.currentCategory!.items.sorted(byKeyPath: KEY_PATH, ascending: true)
+            let response = TodoListModel.FetchItems.Response(items: items)
+            seal.fulfill(response)
+        }
+    }
+    
+    
+    // MARK: Update Items
+    func updateItems(with request: TodoListModel.UpdateItems.Request) -> Promise<TodoListModel.UpdateItems.Response> {
+        return Promise { seal in
+            do {
+                if(request.method == TodoListModel.UpdateItems.Request.Method.add) {
+                    try realm.write {
+                        request.currentCategory!.items.append(request.item)
+                        seal.fulfill(TodoListModel.UpdateItems.Response(updatedCategory: request.currentCategory!))
+                    }
+                } else if(request.method == TodoListModel.UpdateItems.Request.Method.remove) {
+                    try realm.write {
+                        realm.delete(request.item)
+                        seal.fulfill(TodoListModel.UpdateItems.Response(updatedCategory: request.currentCategory!))
+                    }
+                }
+            } catch {
+                seal.reject(error)
+            }
+        }
+    }
 }
