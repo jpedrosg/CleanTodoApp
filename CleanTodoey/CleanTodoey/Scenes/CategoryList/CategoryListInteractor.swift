@@ -11,6 +11,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 protocol CategoryListBusinessLogic {
     
@@ -64,11 +65,18 @@ class CategoryListInteractor: CategoryListBusinessLogic, CategoryListDataStore {
     
     private func handleUpdateCategoriesSuccess(response: CategoryListModel.UpdateCategories.Response){
         if let category = response.addedCategory {
-            categories?.append(category)
-        } else if let category = response.removedCategory, let correctIndex = categories?.firstIndex(of: category) {
-            categories?.remove(at: correctIndex)
+            self.categories?.append(category)
+        } else if let category = response.removedCategory, let correctIndex = self.categories?.firstIndex(of: category) {
+            self.categories?.remove(at: correctIndex)
         }
-        let finalResponse = CategoryListModel.UpdateCategories.Response(categories:self.categories, error: response.error)
+        var validCategories: Array<Category> = []
+        for categorie in categories! {
+            if(!categorie.isInvalidated) {
+                validCategories.append(categorie)
+            }
+        }
+        self.categories = validCategories
+        let finalResponse = CategoryListModel.UpdateCategories.Response(categories:validCategories, error: response.error)
         presenter?.presentUpdateCategories(finalResponse)
     }
     

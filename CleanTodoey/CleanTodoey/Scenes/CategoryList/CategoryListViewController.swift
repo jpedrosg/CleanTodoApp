@@ -11,7 +11,7 @@
 //
 
 import UIKit
-
+import RealmSwift
 
 // MARK: - CategoryListDisplayLogic
 
@@ -36,7 +36,7 @@ class CategoryListViewController: UITableViewController {
     
     
     // MARK: Object properties
-    
+    let realm = try! Realm()
     var categories: Array<Category>?
     var interactor: CategoryListBusinessLogic?
     var router: (NSObjectProtocol & CategoryListRoutingLogic & CategoryListDataPassing)?
@@ -169,7 +169,9 @@ extension CategoryListViewController: CategoryListDisplayLogic{
     
     func displayCategoriesSuccess(_ viewModel: CategoryListModel.FetchCategories.ViewModel) {
         self.categories = viewModel.categories
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     func displayCategoriesError(_ viewModel: CategoryListModel.FetchCategories.ViewModel) {
@@ -183,7 +185,9 @@ extension CategoryListViewController: CategoryListDisplayLogic{
 
     func displayUpdateCategoriesSuccess(_ viewModel: CategoryListModel.UpdateCategories.ViewModel) {
         categories = viewModel.categories
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     func displayUpdateCategoriesError(_ viewModel: CategoryListModel.UpdateCategories.ViewModel) {

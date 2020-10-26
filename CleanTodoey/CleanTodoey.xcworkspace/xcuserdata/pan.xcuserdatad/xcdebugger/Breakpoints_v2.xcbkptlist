@@ -7,144 +7,128 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "24746798-C0CD-4FB3-AA36-39E7318C7A66"
+            uuid = "DBEE331C-A25A-4407-894C-31E9DAE9173B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CleanTodoey/Scenes/CategoryList/CategoryListWorker.swift"
+            filePath = "CleanTodoey/Scenes/CategoryList/CategoryListInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "updateCategories(with:)"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "handleUpdateCategoriesSuccess(response:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DB603FF4-0CA0-4356-961C-C1953B580B82"
+            uuid = "B78CC080-C15C-4021-B1AD-DCF83A8DFFF2"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CleanTodoey/Scenes/CategoryList/CategoryListWorker.swift"
+            filePath = "CleanTodoey/Scenes/CategoryList/CategoryListInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "updateCategories(with:)"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "handleUpdateCategoriesSuccess(response:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E162D6E4-EA5E-4E55-AD95-B614E0BA7CC3"
+            uuid = "68386DD6-23FF-4D7E-9628-B59339A80A95"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CleanTodoey/Scenes/TodoList/TodoListWorker.swift"
+            filePath = "CleanTodoey/Scenes/CategoryList/CategoryListInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "fetchItems(with:)"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "handleUpdateCategoriesSuccess(response:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "E162D6E4-EA5E-4E55-AD95-B614E0BA7CC3 - 5b26771af2e28c60"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CleanTodoey.TodoListWorker.fetchItems(with: CleanTodoey.TodoListModel.FetchItems.Request) -&gt; PromiseKit.Promise&lt;CleanTodoey.TodoListModel.FetchItems.Response&gt;"
-                  moduleName = "CleanTodoey"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/pan/Estudos/CleanTodoey/CleanTodoey/CleanTodoey/Scenes/TodoList/TodoListWorker.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "35"
-                  endingLineNumber = "35"
-                  offsetFromSymbolStart = "34">
-               </Location>
-               <Location
-                  uuid = "E162D6E4-EA5E-4E55-AD95-B614E0BA7CC3 - 6bdaf36b09dc6951"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (PromiseKit.Resolver&lt;CleanTodoey.TodoListModel.FetchItems.Response&gt;) -&gt; () in CleanTodoey.TodoListWorker.fetchItems(with: CleanTodoey.TodoListModel.FetchItems.Request) -&gt; PromiseKit.Promise&lt;CleanTodoey.TodoListModel.FetchItems.Response&gt;"
-                  moduleName = "CleanTodoey"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/pan/Estudos/CleanTodoey/CleanTodoey/CleanTodoey/Scenes/TodoList/TodoListWorker.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "36"
-                  endingLineNumber = "36"
-                  offsetFromSymbolStart = "157">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D20EF357-1A87-4C40-AB3B-CA5610CB0C24"
+            uuid = "AEE9B820-593C-4265-BDD5-AAD9B1493E88"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CleanTodoey/Scenes/TodoList/TodoListWorker.swift"
+            filePath = "CleanTodoey/Scenes/CategoryList/CategoryListPresenter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "presentUpdateCategories(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "833301FE-E40F-4BC5-AE69-6D8726492C45"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CleanTodoey/Scenes/CategoryList/CategoryListPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "48"
             endingLineNumber = "48"
-            landmarkName = "updateItems(with:)"
+            landmarkName = "presentUpdateCategories(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "D20EF357-1A87-4C40-AB3B-CA5610CB0C24 - dcfcbc5afd63c3a2"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (PromiseKit.Resolver&lt;CleanTodoey.TodoListModel.UpdateItems.Response&gt;) -&gt; () in CleanTodoey.TodoListWorker.updateItems(with: CleanTodoey.TodoListModel.UpdateItems.Request) -&gt; PromiseKit.Promise&lt;CleanTodoey.TodoListModel.UpdateItems.Response&gt;"
-                  moduleName = "CleanTodoey"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/pan/Estudos/CleanTodoey/CleanTodoey/CleanTodoey/Scenes/TodoList/TodoListWorker.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "48"
-                  endingLineNumber = "48"
-                  offsetFromSymbolStart = "287">
-               </Location>
-               <Location
-                  uuid = "D20EF357-1A87-4C40-AB3B-CA5610CB0C24 - a401328523409c50"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in closure #1 (PromiseKit.Resolver&lt;CleanTodoey.TodoListModel.UpdateItems.Response&gt;) -&gt; () in CleanTodoey.TodoListWorker.updateItems(with: CleanTodoey.TodoListModel.UpdateItems.Request) -&gt; PromiseKit.Promise&lt;CleanTodoey.TodoListModel.UpdateItems.Response&gt;"
-                  moduleName = "CleanTodoey"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/pan/Estudos/CleanTodoey/CleanTodoey/CleanTodoey/Scenes/TodoList/TodoListWorker.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "49"
-                  endingLineNumber = "49"
-                  offsetFromSymbolStart = "144">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DB1EE392-24A8-4046-8E4A-CD43C6633240"
+            uuid = "CC209855-2A4E-43E7-82A7-D1A444B7D922"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CleanTodoey/Scenes/TodoList/TodoListWorker.swift"
+            filePath = "CleanTodoey/Scenes/CategoryList/CategoryListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
-            landmarkName = "updateItems(with:)"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
+            landmarkName = "tableView(_:numberOfRowsInSection:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9C46BB08-37BA-41E3-953A-D8A29C727DF4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CleanTodoey/Scenes/CategoryList/CategoryListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
+            landmarkName = "displayCategoriesSuccess(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "73AFE53D-2135-4558-A58F-28479B9B63B0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CleanTodoey/Scenes/CategoryList/CategoryListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
+            landmarkName = "displayUpdateCategoriesSuccess(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
