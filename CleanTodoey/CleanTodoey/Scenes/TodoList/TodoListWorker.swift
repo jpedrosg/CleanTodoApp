@@ -21,6 +21,9 @@ protocol TodoListDatabaseLogic {
     
     // MARK: Update Items
     func updateItems(with request: TodoListModel.UpdateItems.Request) -> Promise<TodoListModel.UpdateItems.Response>
+    
+    // MARK: Reorder Items
+    func reorderItems(with request: TodoListModel.ReorderItems.Request) -> Promise<TodoListModel.UpdateItems.Response>
 }
 
 class TodoListWorker: TodoListDatabaseLogic {
@@ -57,6 +60,21 @@ class TodoListWorker: TodoListDatabaseLogic {
                 }
             } catch {
                 seal.reject(error)
+            }
+        }
+    }
+    
+    
+    // MARK: Reorder Items
+    func reorderItems(with request: TodoListModel.ReorderItems.Request) -> Promise<TodoListModel.UpdateItems.Response> {
+        return Promise { seal in
+            try realm.write {
+                if let indexFrom = request.from, let indexTo = request.to {
+                    let movedItem = request.currentCategory.items[indexFrom]
+                    request.currentCategory.items.remove(at: indexFrom)
+                    request.currentCategory.items.insert(movedItem, at: indexTo)
+                    seal.fulfill(TodoListModel.UpdateItems.Response(updatedCategory: request.currentCategory))
+                }
             }
         }
     }

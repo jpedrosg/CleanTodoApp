@@ -20,6 +20,9 @@ protocol TodoListBusinessLogic {
     // MARK: Update Items
     func updateItems(with request: TodoListModel.UpdateItems.Request)
     
+    // MARK: Reorder Items
+    func reorderItems(with request: TodoListModel.ReorderItems.Request)
+    
     // MARK: DidSelect Row
     func didSelectRow(index: Int)
     
@@ -70,6 +73,15 @@ class TodoListInteractor: TodoListBusinessLogic, TodoListDataStore {
     private func handleUpdateItemsError(error: Error){
         let response = TodoListModel.UpdateItems.Response(error: error)
         presenter?.presentUpdateItems(response)
+    }
+    
+    
+    // MARK: Reorder Items
+    
+    func reorderItems(with request: TodoListModel.ReorderItems.Request) {
+        worker = TodoListWorker()
+        _ = worker?.reorderItems(with: request)
+            .done(handleUpdateItemsSuccess)
     }
     
     

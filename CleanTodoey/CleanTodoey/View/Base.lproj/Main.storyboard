@@ -94,7 +94,7 @@
         <scene sceneID="BrK-zP-1qA">
             <objects>
                 <tableViewController id="2wh-0y-4zl" customClass="TodoListViewController" customModule="CleanTodoey" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="bPO-nG-HX6">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="bPO-nG-HX6">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -114,12 +114,15 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Item" id="kD4-uz-EeU">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="2TI-cl-Lrc">
-                            <color key="tintColor" name="AccentColor"/>
-                            <connections>
-                                <action selector="addButtonPressed:" destination="2wh-0y-4zl" id="1Ks-79-sio"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Item" id="INL-XC-z5V"/>
+                            <barButtonItem title="Item" image="plus" catalog="system" id="2TI-cl-Lrc">
+                                <color key="tintColor" name="AccentColor"/>
+                                <connections>
+                                    <action selector="addButtonPressed:" destination="2wh-0y-4zl" id="1Ks-79-sio"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BlQ-Wi-87h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -129,6 +132,7 @@
     </scenes>
     <color key="tintColor" name="AccentColor"/>
     <resources>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <namedColor name="AccentColor">
             <color red="1" green="1" blue="1" alpha="0.67473548228346458" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

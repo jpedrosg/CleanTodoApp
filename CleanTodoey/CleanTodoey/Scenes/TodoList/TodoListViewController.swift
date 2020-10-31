@@ -88,6 +88,7 @@ class TodoListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getSelectedCategory()
+        self.navigationItem.rightBarButtonItems?[0] = self.editButtonItem
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,7 +111,7 @@ class TodoListViewController: UITableViewController {
         alert.addAction(action)
         alert.addTextField { (field) in
             textField = field
-            textField.placeholder = "Add a new category"
+            textField.placeholder = "Add a new item"
         }
         present(alert, animated: true, completion: nil)
     }
@@ -124,6 +125,10 @@ class TodoListViewController: UITableViewController {
     
     fileprivate func updateItems(_ request: TodoListModel.UpdateItems.Request) {
         self.interactor?.updateItems(with: request)
+    }
+    
+    fileprivate func reorderItems(_ request: TodoListModel.ReorderItems.Request) {
+        self.interactor?.reorderItems(with: request)
     }
 
     
@@ -157,12 +162,22 @@ class TodoListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CELL_IDENTIFIER, for: indexPath)
         cell.selectionStyle = .default
-        cell.textLabel?.text = selectedCategory?.items[indexPath.row].title
+        cell.textLabel?.text = "\(indexPath.row+1) - \(selectedCategory?.items[indexPath.row].title ?? "New Item")"
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        interactor?.didSelectRow(index: indexPath.row)
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        tableView.moveRow(at: sourceIndexPath, to: destinationIndexPath)
+        guard let category = self.selectedCategory else { return }
+        self.reorderItems(TodoListModel.ReorderItems.Request(currentCategory: category, from: sourceIndexPath.item, to: destinationIndexPath.item))
+    }
+    
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
 }
 

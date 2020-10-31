@@ -55,6 +55,17 @@ enum TodoListModel {
     }
     
     
+    // MARK: Reorder Items
+    
+    enum ReorderItems {
+        struct Request {
+            var currentCategory: Category = Category()
+            var from: Int?
+            var to: Int?
+        }
+    }
+    
+    
     // MARK: Update Items
     
     enum GetSelectedCategory {
