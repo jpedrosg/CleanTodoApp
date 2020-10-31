@@ -45,7 +45,7 @@ class CategoryListInteractor: CategoryListBusinessLogic, CategoryListDataStore {
     
     func fetchCategories() {
         worker = CategoryListWorker()
-        worker?.fetchCategories()
+        _ = worker?.fetchCategories()
             .done(handleFetchCategories)
     }
     
@@ -90,7 +90,7 @@ class CategoryListInteractor: CategoryListBusinessLogic, CategoryListDataStore {
     
     func filterCategories(with request: CategoryListModel.FilterCategories.Request) {
         worker = CategoryListWorker()
-        worker?.filterCategories(with: request)
+        _ = worker?.filterCategories(with: request)
             .done(handleFilterCategoriesSuccess)
     }
     

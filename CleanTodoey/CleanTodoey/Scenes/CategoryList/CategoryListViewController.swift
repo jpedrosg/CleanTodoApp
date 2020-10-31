@@ -108,7 +108,7 @@ class CategoryListViewController: UITableViewController {
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
             // New Category:
             let newCategory = Category()
-            newCategory.name = textField.text!
+            newCategory.name = textField.text?.replacingOccurrences(of: " ", with: "") != "" ? textField.text! : "New Category"
             let request = CategoryListModel.UpdateCategories.Request(method: CategoryListModel.UpdateCategories.Request.Method.add, category: newCategory)
             self.updateCategories(request)
         }

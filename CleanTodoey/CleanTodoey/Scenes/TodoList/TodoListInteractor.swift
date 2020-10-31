@@ -44,7 +44,7 @@ class TodoListInteractor: TodoListBusinessLogic, TodoListDataStore {
     func fetchItems(with request: TodoListModel.FetchItems.Request) {
         let finalRequest = TodoListModel.FetchItems.Request(currentCategory: self.selectedCategory)
         worker = TodoListWorker()
-        worker?.fetchItems(with: finalRequest)
+        _ = worker?.fetchItems(with: finalRequest)
             .done(handleFetchItems)
     }
     

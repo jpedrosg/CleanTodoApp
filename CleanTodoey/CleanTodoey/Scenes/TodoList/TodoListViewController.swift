@@ -103,7 +103,7 @@ class TodoListViewController: UITableViewController {
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
             // New Category:
             let newItem = Item()
-            newItem.title = textField.text!
+            newItem.title = textField.text.replacingOccurrences(of: " ", with: "") != "" ? textField.text! : "New Item"
             let request = TodoListModel.UpdateItems.Request(method: TodoListModel.UpdateItems.Request.Method.add, item: newItem)
             self.updateItems(request)
         }
