@@ -90,6 +90,10 @@ class TodoListViewController: UITableViewController {
         getSelectedCategory()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setTitle()
+    }
     
     // MARK: IBActions
     
@@ -130,6 +134,10 @@ class TodoListViewController: UITableViewController {
             let request = TodoListModel.UpdateItems.Request(method: TodoListModel.UpdateItems.Request.Method.remove, item: itemForDeletion)
             self.interactor?.updateItems(with: request)
         }
+    }
+    
+    fileprivate func setTitle() {
+        self.title = selectedCategory?.name
     }
     
     

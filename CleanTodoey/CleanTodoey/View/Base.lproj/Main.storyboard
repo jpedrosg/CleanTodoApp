@@ -12,11 +12,23 @@
         <scene sceneID="HTn-7j-4ds">
             <objects>
                 <navigationController id="ANd-XT-pIM" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="zvE-dH-EVF">
-                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="zvE-dH-EVF">
+                        <rect key="frame" x="0.0" y="44" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" name="SecondaryColor"/>
                         <color key="tintColor" name="AccentColor"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                        </textAttributes>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                        </textAttributes>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="QU4-nb-DcV">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="Eyx-jN-obj" kind="relationship" relationship="rootViewController" id="K3u-rS-tfq"/>
                     </connections>
@@ -25,17 +37,30 @@
             </objects>
             <point key="canvasLocation" x="1" y="112"/>
         </scene>
-        <!--Category List View Controller-->
+        <!--Categories-->
         <scene sceneID="MFG-fq-xCl">
             <objects>
                 <tableViewController id="Eyx-jN-obj" customClass="CategoryListViewController" customModule="CleanTodoey" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="je3-WC-f9A">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="PrimaryColor"/>
+                        <color key="tintColor" name="AccentColor"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" translucent="NO" id="Fkm-3X-z7i">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.50542876479999999" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="barTintColor" name="AccentColor"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <scopeButtonTitles>
+                                <string>Title</string>
+                                <string>Title</string>
+                            </scopeButtonTitles>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="80" id="PiN-wo-Uzf">
-                                <rect key="frame" x="0.0" y="28" width="375" height="80"/>
+                                <rect key="frame" x="0.0" y="84" width="375" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PiN-wo-Uzf" id="fsj-F4-3Xi">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
@@ -48,14 +73,16 @@
                             <outlet property="delegate" destination="Eyx-jN-obj" id="VhE-a7-5jt"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Cyh-sX-ZaN">
+                    <navigationItem key="navigationItem" title="Categories" id="Cyh-sX-ZaN">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="whX-Oa-HEH">
+                            <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <action selector="addButtonPressed:" destination="Eyx-jN-obj" id="mid-PF-TY5"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="searchBar" destination="Fkm-3X-z7i" id="TB8-8j-DtW"/>
                         <segue destination="2wh-0y-4zl" kind="show" identifier="TodoList" id="eqV-O3-HHi"/>
                     </connections>
                 </tableViewController>
@@ -63,12 +90,12 @@
             </objects>
             <point key="canvasLocation" x="856.79999999999995" y="111.57635467980296"/>
         </scene>
-        <!--Todo List View Controller-->
+        <!--Item-->
         <scene sceneID="BrK-zP-1qA">
             <objects>
                 <tableViewController id="2wh-0y-4zl" customClass="TodoListViewController" customModule="CleanTodoey" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="bPO-nG-HX6">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
@@ -86,8 +113,9 @@
                             <outlet property="delegate" destination="2wh-0y-4zl" id="aSe-JX-DRr"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="kD4-uz-EeU">
+                    <navigationItem key="navigationItem" title="Item" id="kD4-uz-EeU">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="2TI-cl-Lrc">
+                            <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <action selector="addButtonPressed:" destination="2wh-0y-4zl" id="1Ks-79-sio"/>
                             </connections>
@@ -99,9 +127,16 @@
             <point key="canvasLocation" x="1693.5999999999999" y="111.57635467980296"/>
         </scene>
     </scenes>
+    <color key="tintColor" name="AccentColor"/>
     <resources>
         <namedColor name="AccentColor">
-            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="1" blue="1" alpha="0.67473548228346458" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="PrimaryColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="SecondaryColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -21,6 +21,9 @@ protocol CategoryListDatabaseLogic {
     
     // MARK: Update Categories
     func updateCategories(with request: CategoryListModel.UpdateCategories.Request) -> Promise<CategoryListModel.UpdateCategories.Response>
+    
+    // MARK: Filter Categories
+    func filterCategories(with request: CategoryListModel.FilterCategories.Request) -> Promise<CategoryListModel.FilterCategories.Response>
 }
 
 class CategoryListWorker: CategoryListDatabaseLogic {
@@ -57,6 +60,17 @@ class CategoryListWorker: CategoryListDatabaseLogic {
             } catch {
                 seal.reject(error)
             }
+        }
+    }
+    
+    
+    // MARK: Filter Categories
+    func filterCategories(with request: CategoryListModel.FilterCategories.Request) -> Promise<CategoryListModel.FilterCategories.Response> {
+        return Promise { seal in
+            guard let filter = request.text else { return }
+            let filteredCategories = realm.objects(Category.self).filter("name BEGINSWITH[cd] %@", filter).sorted(byKeyPath: "name", ascending: true)
+            let response = CategoryListModel.FilterCategories.Response(categories: filteredCategories)
+            seal.fulfill(response)
         }
     }
 }

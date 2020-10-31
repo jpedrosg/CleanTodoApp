@@ -49,4 +49,20 @@ enum CategoryListModel {
             var errorString: String?
         }
     }
+    
+    // MARK: Filter Categories
+    
+    enum FilterCategories {
+        struct Request {
+            var text: String?
+        }
+        struct Response {
+            var categories: Results<Category>?
+            var error: Error?
+        }
+        struct ViewModel {
+            var categories: Array<Category>? = []
+            var errorString: String?
+        }
+    }
 }

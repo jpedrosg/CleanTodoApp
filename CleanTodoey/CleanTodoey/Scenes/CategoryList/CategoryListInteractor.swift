@@ -21,6 +21,9 @@ protocol CategoryListBusinessLogic {
     // MARK: Update Categories
     func updateCategories(with request: CategoryListModel.UpdateCategories.Request)
     
+    // MARK: Update Categories
+    func filterCategories(with request: CategoryListModel.FilterCategories.Request)
+    
     // MARK: DidSelect Row
     func didSelectRow(index: Int)
 }
@@ -83,6 +86,20 @@ class CategoryListInteractor: CategoryListBusinessLogic, CategoryListDataStore {
     private func handleUpdateCategoriesError(error: Error){
         let response = CategoryListModel.UpdateCategories.Response(error: error)
         presenter?.presentUpdateCategories(response)
+    }
+    
+    func filterCategories(with request: CategoryListModel.FilterCategories.Request) {
+        worker = CategoryListWorker()
+        worker?.filterCategories(with: request)
+            .done(handleFilterCategoriesSuccess)
+    }
+    
+    private func handleFilterCategoriesSuccess(response: CategoryListModel.FilterCategories.Response){
+        if let categories: Array<Category> = response.categories?.toArray(type: Category.self) {
+            self.categories = categories
+        }
+        let finalResponse = CategoryListModel.FetchCategories.Response(categories: response.categories)
+        presenter?.presentCategories(finalResponse)
     }
     
     

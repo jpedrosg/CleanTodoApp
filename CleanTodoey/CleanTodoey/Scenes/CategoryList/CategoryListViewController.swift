@@ -90,8 +90,14 @@ class CategoryListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchBar.delegate = self
         getCategories()
     }
+    
+    
+    // MARK: IBOutlets
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     
     
     // MARK: IBActions
@@ -119,6 +125,10 @@ class CategoryListViewController: UITableViewController {
     
     fileprivate func getCategories() {
         interactor?.fetchCategories()
+    }
+    
+    fileprivate func filterCategories(filter: String) {
+        interactor?.filterCategories(with: CategoryListModel.FilterCategories.Request(text: filter))
     }
     
     fileprivate func updateCategories(_ request: CategoryListModel.UpdateCategories.Request) {
@@ -200,5 +210,20 @@ extension CategoryListViewController: CategoryListDisplayLogic{
     // MARK: Display Update Categories
     func displayTodoList() {
         performSegue(withIdentifier: SEGUE_TO_TODOLIST, sender: self)
+    }
+}
+
+// MARK: - UISearchBarDelegate
+
+extension CategoryListViewController: UISearchBarDelegate{
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard let filter = searchBar.text else { return }
+        
+        if filter != "" {
+            self.filterCategories(filter: filter)
+        } else {
+            self.getCategories()
+        }
     }
 }
